@@ -1,3 +1,4 @@
+frameworkVersion: '4.21.0'
 # "org" ensures this Service is used with the correct Serverless Framework Access Key.
 org: vboyparty
 # "app" enables Serverless Framework Dashboard features and sharing them with other Services.
