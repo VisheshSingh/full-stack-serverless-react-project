@@ -10,8 +10,15 @@ provider:
   name: aws
   runtime: nodejs20.x
   stage: ${opt:stage, 'dev'}
+  region: us-east-1
   environment:
     MY_DYNAMODB_TABLE: backend-dev-table
+  iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:PutItem
+    Resource:
+      - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.MY_DYNAMODB_TABLE}
   # Uncomment to easily set up a custom domain. Read the docs for more details:
   # https://www.serverless.com/framework/docs/providers/aws/guide/domains
   # domain: api.example.com
