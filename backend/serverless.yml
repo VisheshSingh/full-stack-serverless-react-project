@@ -18,13 +18,13 @@ provider:
 
 functions:
   create:
-    handler: handlers/create.handler
+    handler: handlers/createBooking.handler
     events:
       - http:
           path: /
           method: post
   get:
-    handler: handlers/get.handler
+    handler: handlers/getBooking.handler
     events:
       - http:
           path: /
