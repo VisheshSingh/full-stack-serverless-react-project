@@ -6,13 +6,13 @@ const client = new DynamoDBClient({});
 const db = DynamoDBDocumentClient.from(client);
 
 export const handler = async (event) => {
-  const { firstName, lastName, date } = JSON.parse(event.body);
+  const { firstName, lastName, bookingDate } = JSON.parse(event.body);
   const now = new Date().toISOString();
   const booking = {
     id: uuid(),
     firstName,
     lastName,
-    date,
+    bookingDate,
     createdAt: now,
   };
 

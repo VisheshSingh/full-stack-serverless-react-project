@@ -17,6 +17,7 @@ provider:
   - Effect: Allow
     Action:
       - dynamodb:PutItem
+      - dynamodb:GetItem
     Resource:
       - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.MY_DYNAMODB_TABLE}
   # Uncomment to easily set up a custom domain. Read the docs for more details:
@@ -31,10 +32,10 @@ functions:
           path: /
           method: post
   get:
-    handler: handlers/getBooking.handler
+    handler: handlers/getBookingById.handler
     events:
       - http:
-          path: /
+          path: /{id}
           method: get
 
 resources:
