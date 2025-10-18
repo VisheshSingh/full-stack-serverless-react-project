@@ -1,0 +1,47 @@
+name: Deploy backend (multi-stage)
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{github.ref_name == 'develop' && 'dev' || 'prod'}}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Determine deploy stage
+        id: vars
+        run: |
+          if [[ "${GITHUB_REF##*/}" == "develop" ]]; then
+            echo "stage=dev" >> $GITHUB_OUTPUT
+          else
+            echo "stage=prod" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          npm ci
+
+      - name: Deploy with Serverless
+        run: |
+          echo "SERVERLESS_ACCESS_KEY is set? $(if [ -z "$SERVERLESS_ACCESS_KEY" ]; then echo '❌ NO'; else echo '✅ YES'; fi)"
+          cd backend
+          echo "Deploying to stage: ${{ steps.vars.outputs.stage }}"
+          npx serverless deploy --stage ${{ steps.vars.outputs.stage }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+          AWS_REGION: us-east-1
