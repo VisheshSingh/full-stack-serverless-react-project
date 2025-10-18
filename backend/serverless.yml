@@ -15,13 +15,13 @@ provider:
 
 functions:
   create:
-    handler: handler/create.handler
+    handler: handlers/create.handler
     events:
       - http:
           path: /
           method: post
   get:
-    handler: get.handler
+    handler: handlers/get.handler
     events:
       - http:
           path: /
