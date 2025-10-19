@@ -9,20 +9,47 @@ service: backend
 provider:
   name: aws
   runtime: nodejs20.x
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  environment:
+    MY_DYNAMODB_TABLE: ${self:service}-${opt:stage, 'dev'}-table
+  iamRoleStatements:
+  - ${file(iam/BookingTableIAM.yml):BookingTableIAM}
   # Uncomment to easily set up a custom domain. Read the docs for more details:
   # https://www.serverless.com/framework/docs/providers/aws/guide/domains
   # domain: api.example.com
 
 functions:
   create:
-    handler: handlers/create.handler
+    handler: handlers/createBooking.handler
     events:
       - http:
           path: /
           method: post
   get:
-    handler: handlers/get.handler
+    handler: handlers/getBookingById.handler
     events:
       - http:
-          path: /
+          path: /{id}
           method: get
+  update:
+    handler: handlers/updateBooking.handler
+    events:
+      - http:
+          path: /{id}
+          method: put
+  delete:
+    handler: handlers/deleteBooking.handler
+    events:
+      - http:
+          path: /{id}
+          method: delete
+
+resources:
+  Resources:
+    BookingTable: ${file(resources/BookingTable.yml):BookingTable}
+
+custom:
+  BookingTable:
+    name: !Ref BookingTable
+    arn: !GetAtt BookingTable.Arn
