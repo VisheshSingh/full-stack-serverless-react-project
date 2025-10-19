@@ -26,7 +26,13 @@ functions:
       - http:
           path: /
           method: post
-  get:
+  getAll:
+    handler: handlers/getAllBookings.handler
+    events:
+      - http:
+          path: /
+          method: get
+  getById:
     handler: handlers/getBookingById.handler
     events:
       - http:
