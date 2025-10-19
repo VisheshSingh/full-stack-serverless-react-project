@@ -21,3 +21,8 @@ export const createBooking = ({ firstName, lastName, bookingDate }) =>
     method: 'POST',
     body: JSON.stringify({ firstName, lastName, bookingDate }),
   });
+
+export const updateBooking = (id, payload) =>
+  request(`/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+
+export const getBookingById = (id) => request(`/${id}`, { method: 'GET' });
