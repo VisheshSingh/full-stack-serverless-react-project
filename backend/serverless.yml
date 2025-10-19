@@ -19,6 +19,7 @@ provider:
       - dynamodb:PutItem
       - dynamodb:GetItem
       - dynamodb:UpdateItem
+      - dynamodb:DeleteItem
     Resource:
       - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.MY_DYNAMODB_TABLE}
   # Uncomment to easily set up a custom domain. Read the docs for more details:
@@ -44,6 +45,12 @@ functions:
       - http:
           path: /{id}
           method: put
+  delete:
+    handler: handlers/deleteBooking.handler
+    events:
+      - http:
+          path: /{id}
+          method: delete
 
 resources:
   Resources:
