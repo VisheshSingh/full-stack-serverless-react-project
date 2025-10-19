@@ -12,7 +12,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   environment:
-    MY_DYNAMODB_TABLE: backend-dev-table
+    MY_DYNAMODB_TABLE: ${self:service}-${opt:stage, 'dev'}-table
   iamRoleStatements:
   - Effect: Allow
     Action:
@@ -21,7 +21,7 @@ provider:
       - dynamodb:UpdateItem
       - dynamodb:DeleteItem
     Resource:
-      - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.MY_DYNAMODB_TABLE}
+      - ${self:custom.BookingTable.arn}
   # Uncomment to easily set up a custom domain. Read the docs for more details:
   # https://www.serverless.com/framework/docs/providers/aws/guide/domains
   # domain: api.example.com
@@ -65,3 +65,8 @@ resources:
           - AttributeName: id
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+
+custom:
+  BookingTable:
+    name: !Ref BookingTable
+    arn: !GetAtt BookingTable.Arn
