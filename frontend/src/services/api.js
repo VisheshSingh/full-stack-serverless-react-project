@@ -15,3 +15,9 @@ async function request(path, options = {}) {
 }
 
 export const listAllBookings = () => request('/', { method: 'GET' });
+
+export const createBooking = ({ firstName, lastName, bookingDate }) =>
+  request('/', {
+    method: 'POST',
+    body: JSON.stringify({ firstName, lastName, bookingDate }),
+  });
