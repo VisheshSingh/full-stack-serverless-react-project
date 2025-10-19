@@ -14,14 +14,7 @@ provider:
   environment:
     MY_DYNAMODB_TABLE: ${self:service}-${opt:stage, 'dev'}-table
   iamRoleStatements:
-  - Effect: Allow
-    Action:
-      - dynamodb:PutItem
-      - dynamodb:GetItem
-      - dynamodb:UpdateItem
-      - dynamodb:DeleteItem
-    Resource:
-      - ${self:custom.BookingTable.arn}
+  - ${file(iam/BookingTableIAM.yml):BookingTableIAM}
   # Uncomment to easily set up a custom domain. Read the docs for more details:
   # https://www.serverless.com/framework/docs/providers/aws/guide/domains
   # domain: api.example.com
@@ -54,17 +47,7 @@ functions:
 
 resources:
   Resources:
-    BookingTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:provider.environment.MY_DYNAMODB_TABLE}
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
+    BookingTable: ${file(resources/BookingTable.yml):BookingTable}
 
 custom:
   BookingTable:
