@@ -40,13 +40,17 @@ jobs:
           fi
 
       - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           npm install -g vercel
           cd frontend
           if [ "${{ steps.env.outputs.env }}" == "dev" ]; then
             echo "🚀 Deploying to Development..."
-            npx vercel --token=${{ secrets.VERCEL_TOKEN }} --yes
+            npx vercel --token=$VERCEL_TOKEN --yes --confirm
           else
             echo "🚀 Deploying to Production..."
-            npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+            npx vercel --token=$VERCEL_TOKEN --prod --yes --confirm
           fi
