@@ -26,30 +26,35 @@ functions:
       - http:
           path: /
           method: post
+          cors: true
   getAll:
     handler: handlers/getAllBookings.handler
     events:
       - http:
           path: /
           method: get
+          cors: true
   getById:
     handler: handlers/getBookingById.handler
     events:
       - http:
           path: /{id}
           method: get
+          cors: true
   update:
     handler: handlers/updateBooking.handler
     events:
       - http:
           path: /{id}
           method: put
+          cors: true
   delete:
     handler: handlers/deleteBooking.handler
     events:
       - http:
           path: /{id}
           method: delete
+          cors: true
 
 resources:
   Resources:
