@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   createBooking,
+  deleteBooking,
   getBookingById,
   listAllBookings,
   updateBooking,
@@ -51,6 +52,18 @@ const Home = () => {
     }
   }
 
+  async function handleDelete(bookingId) {
+    const res = await deleteBooking(bookingId);
+    if (res.status === 204) {
+      const filtereredBookings = bookings.filter(
+        (booking) => booking.id !== bookingId
+      );
+      console.log({ filtereredBookings });
+      setBookings(filtereredBookings);
+    }
+    fetchBookings();
+  }
+
   return (
     <div className='min-h-screen bg-gray-50 p-4'>
       <div className='max-w-3xl mx-auto'>
@@ -88,7 +101,7 @@ const Home = () => {
                 {booking.firstName} {booking.lastName}
               </h2>
               <p className='text-xs text-gray-500'>
-                {new Date(booking.createdAt).toDateString()}
+                {new Date(booking.bookingDate).toDateString()}
               </p>
               <div className='mt-2 flex gap-2'>
                 <button
@@ -97,7 +110,10 @@ const Home = () => {
                 >
                   Edit📝
                 </button>
-                <button className='text-sm text-red-600 cursor-pointer'>
+                <button
+                  className='text-sm text-red-600 cursor-pointer'
+                  onClick={() => handleDelete(booking.id)}
+                >
                   Delete❌
                 </button>
               </div>

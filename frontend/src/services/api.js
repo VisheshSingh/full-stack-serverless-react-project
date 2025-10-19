@@ -26,3 +26,5 @@ export const updateBooking = (id, payload) =>
   request(`/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
 
 export const getBookingById = (id) => request(`/${id}`, { method: 'GET' });
+
+export const deleteBooking = (id) => request(`/${id}`, { method: 'DELETE' });
