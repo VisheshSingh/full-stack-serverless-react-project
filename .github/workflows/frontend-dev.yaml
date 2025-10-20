@@ -33,7 +33,7 @@ jobs:
       - name: Build frontend
         run: |
           cd frontend
-          npm run build
+          VITE_API_URL=${{ secrets.VITE_API_URL }} npm run build
 
       - name: Determine env
         id: env
