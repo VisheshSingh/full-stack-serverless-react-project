@@ -5,6 +5,8 @@ on:
     branches:
       - develop
       - master
+    paths:
+      - 'frontend/**'
 
 jobs:
   deploy:
