@@ -1,11 +1,10 @@
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 async function request(path, options = {}) {
-  const res = await fetch(
-    `https://lsvrwyvtzl.execute-api.us-east-1.amazonaws.com/dev/${path}`,
-    {
-      headers: { 'Content-Type': 'application/json' },
-      ...options,
-    }
-  );
+  const res = await fetch(`${BASE_URL}${path}`, {
+    headers: { 'Content-Type': 'application/json' },
+    ...options,
+  });
   let data = null;
   try {
     const text = await res.text();
