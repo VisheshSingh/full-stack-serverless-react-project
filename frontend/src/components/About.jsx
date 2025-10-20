@@ -10,7 +10,7 @@ const About = () => {
           This app leverages APIs built using Serverless framework v4 and uses
           🌐 API Gateway, 🈷️ Lambda functions and 📫 DynamoDB integration
         </h4>
-        <p className='mt-4 font-extrabold'>Version 1.0.0 🍵</p>
+        <p className='mt-4 font-extrabold'>💝 Version 1.0.0 🍵</p>
       </div>
     </div>
   );
