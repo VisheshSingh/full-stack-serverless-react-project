@@ -49,8 +49,8 @@ jobs:
           cd frontend
           if [ "${{ steps.env.outputs.env }}" == "dev" ]; then
             echo "🚀 Deploying to Development..."
-            npx vercel --token=$VERCEL_TOKEN --yes --confirm
+            npx vercel --token=$VERCEL_TOKEN --yes --confirm --name frontend
           else
             echo "🚀 Deploying to Production..."
-            npx vercel --token=$VERCEL_TOKEN --prod --yes --confirm
+            npx vercel --token=$VERCEL_TOKEN --prod --yes --confirm --name frontend
           fi

@@ -64,7 +64,9 @@ const Home = () => {
   return (
     <div className='min-h-screen bg-gray-50 p-4'>
       <div className='max-w-3xl mx-auto'>
-        <h1 className='text-3xl font-bold mb-4'>Create Booking</h1>
+        <h1 className='text-3xl font-bold mb-4'>
+          {isEditMode ? 'Update' : 'Create'} Booking
+        </h1>
         <form onSubmit={handleFormSubmit} className='flex gap-2 mb-6'>
           <input
             value={firstName}
