@@ -6,12 +6,16 @@ async function request(path, options = {}) {
       ...options,
     }
   );
-  const data = await res.json();
+  let data = null;
   try {
-    return { status: res.status, data: data };
-  } catch {
-    return { status: res.status, data: null };
+    const text = await res.text();
+    data = text ? JSON.parse(text) : null;
+  } catch (err) {
+    console.error('invalid JSON:', err);
+    data = null;
   }
+
+  return { status: res.status, data };
 }
 
 export const listAllBookings = () => request('/', { method: 'GET' });

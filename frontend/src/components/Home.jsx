@@ -53,15 +53,12 @@ const Home = () => {
   }
 
   async function handleDelete(bookingId) {
+    if (!confirm('Are you sure you want to delete this booking?')) return;
     const res = await deleteBooking(bookingId);
+
     if (res.status === 204) {
-      const filtereredBookings = bookings.filter(
-        (booking) => booking.id !== bookingId
-      );
-      console.log({ filtereredBookings });
-      setBookings(filtereredBookings);
+      setBookings((prev) => prev.filter((b) => b.id !== bookingId));
     }
-    fetchBookings();
   }
 
   return (
@@ -101,7 +98,13 @@ const Home = () => {
                 {booking.firstName} {booking.lastName}
               </h2>
               <p className='text-xs text-gray-500'>
-                {new Date(booking.bookingDate).toDateString()}
+                {new Date(booking.bookingDate).toLocaleDateString('en-US', {
+                  timeZone: 'UTC',
+                  weekday: 'short',
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
               </p>
               <div className='mt-2 flex gap-2'>
                 <button
