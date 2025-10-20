@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
-    <nav className='bg-blue-600 text-white px-6 py-4 flex justify-between items-center'>
+    <nav className='font-display bg-orange-700 text-white px-6 py-4 flex justify-between items-center'>
       <div className='text-xl font-bold'>
-        <Link to='/'>Bookings app 🎟️</Link>
+        <Link to='/'>🎫 BookZilla</Link>
       </div>
 
       <ul className='flex space-x-6'>
