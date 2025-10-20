@@ -1,0 +1,61 @@
+name: Deploy frontend
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+    paths:
+      - 'frontend/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{github.ref_name == 'develop' && 'dev' || 'prod'}}
+
+    env:
+      VITE_API_URL: ${{ secrets.VITE_API_URL }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Determine env
+        id: env
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == "develop" ]]; then
+            echo "env=dev" >> $GITHUB_OUTPUT
+          else
+            echo "env=prod" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          npm install -g vercel
+          cd frontend
+          if [ "${{ steps.env.outputs.env }}" == "dev" ]; then
+            echo "🚀 Deploying to Development..."
+            npx vercel --token=$VERCEL_TOKEN --yes --confirm --name frontend
+          else
+            echo "🚀 Deploying to Production..."
+            npx vercel --token=$VERCEL_TOKEN --prod --yes --confirm --name frontend
+          fi
