@@ -126,7 +126,7 @@ Production Environment (Branch: master)
 
 ### Frontend application deployed to prod on vercel -
 
-https://frontend-klejpgt4a-visheshs-projects-e6c22e65.vercel.app/
+https://frontend-q0e9cz7rw-visheshs-projects-e6c22e65.vercel.app/
 
 ### Backend API deployed to prod stage -
 
