@@ -67,7 +67,10 @@ const Home = () => {
         <h1 className='text-3xl font-bold mb-4'>
           {isEditMode ? 'Update' : 'Create'} Booking
         </h1>
-        <form onSubmit={handleFormSubmit} className='flex gap-2 mb-6'>
+        <form
+          onSubmit={handleFormSubmit}
+          className='flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 mb-6 bg-white p-4 sm:p-6 rounded-xl shadow-md'
+        >
           <input
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
