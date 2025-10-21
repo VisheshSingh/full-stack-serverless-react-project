@@ -57,9 +57,11 @@ jobs:
           if [ "${{ steps.env.outputs.env }}" == "dev" ]; then
             echo "🚀 Deploying to Development..."
             vercel pull --yes --environment=development --token=$VERCEL_TOKEN
-            vercel deploy --prebuilt --token=$VERCEL_TOKEN --yes
+            vercel build --token=$VERCEL_TOKEN
+            vercel deploy  --token=$VERCEL_TOKEN --yes
           else
             echo "🚀 Deploying to Production..."
             vercel pull --yes --environment=production --token=$VERCEL_TOKEN
-            vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN --yes
+            vercel build --token=$VERCEL_TOKEN
+            vercel deploy --prod --token=$VERCEL_TOKEN --yes
           fi
