@@ -123,3 +123,15 @@ Production Environment (Branch: master)
 ![sample deployment](frontend/static/sample-deployment.png)
 
 ![vercel deployment to prod](frontend/static/vercel-deployment.png)
+
+### Frontend application deployed to prod on vercel -
+
+https://frontend-klejpgt4a-visheshs-projects-e6c22e65.vercel.app/
+
+### Backend API deployed to prod stage -
+
+https://mjxskz83zl.execute-api.us-east-1.amazonaws.com/prod
+
+### Backend API deployed to dev stage -
+
+https://lsvrwyvtzl.execute-api.us-east-1.amazonaws.com/dev
