@@ -14,9 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{github.ref_name == 'develop' && 'dev' || 'prod'}}
 
-    env:
-      VITE_API_URL: ${{ secrets.VITE_API_URL }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -60,9 +57,9 @@ jobs:
           cd frontend
           if [ "${{ steps.env.outputs.env }}" == "dev" ]; then
             echo "🚀 Deploying to Development..."
-            npx vercel --token=$VERCEL_TOKEN --yes
+            npx vercel --yes
           else
             echo "🚀 Deploying to Production..."
             echo "Deploying with VITE_API_URL=$VITE_API_URL"
-            npx vercel --token=$VERCEL_TOKEN --prod --yes
+            npx vercel --prod --yes
           fi
