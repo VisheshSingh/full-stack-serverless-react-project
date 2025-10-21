@@ -54,14 +54,11 @@ jobs:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: |
           npm install -g vercel
-          if [ "${{ steps.env.outputs.env }}" == "dev" ]; then
+          cd frontend
+          if [ "${GITHUB_REF_NAME}" == "develop" ]; then
             echo "🚀 Deploying to Development..."
-            vercel pull --yes --environment=development --token=$VERCEL_TOKEN
-            vercel build --token=$VERCEL_TOKEN
-            vercel deploy  --token=$VERCEL_TOKEN --yes
+            vercel --token=$VERCEL_TOKEN --yes
           else
             echo "🚀 Deploying to Production..."
-            vercel pull --yes --environment=production --token=$VERCEL_TOKEN
-            vercel build --token=$VERCEL_TOKEN
-            vercel deploy --prod --token=$VERCEL_TOKEN --yes
+            vercel --prod --token=$VERCEL_TOKEN --yes
           fi
