@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{github.ref_name == 'develop' && 'dev' || 'prod'}}
 
+    env:
+      VITE_API_URL: ${{ secrets.VITE_API_URL }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -29,12 +32,8 @@ jobs:
           npm ci
 
       - name: Build frontend
-        env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: |
           cd frontend
-          echo "Building with $VITE_API_URL"
-          printenv | grep VITE_
           VITE_API_URL=${{ secrets.VITE_API_URL }} npm run build
 
       - name: Determine env
@@ -51,14 +50,13 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: |
           npm install -g vercel
           cd frontend
-          if [ "${GITHUB_REF_NAME}" == "develop" ]; then
+          if [ "${{ steps.env.outputs.env }}" == "dev" ]; then
             echo "🚀 Deploying to Development..."
-            vercel --token=$VERCEL_TOKEN --yes
+            npx vercel --token=$VERCEL_TOKEN --yes
           else
             echo "🚀 Deploying to Production..."
-            vercel --prod --token=$VERCEL_TOKEN --yes
+            npx vercel --token=$VERCEL_TOKEN --prod --yes
           fi
