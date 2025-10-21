@@ -54,11 +54,12 @@ jobs:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: |
           npm install -g vercel
-          vercel pull --yes --environment=${{ steps.env.outputs.env }} --token=$VERCEL_TOKEN
           if [ "${{ steps.env.outputs.env }}" == "dev" ]; then
             echo "🚀 Deploying to Development..."
+            vercel pull --yes --environment=development --token=$VERCEL_TOKEN
             vercel deploy --prebuilt --token=$VERCEL_TOKEN --yes
           else
             echo "🚀 Deploying to Production..."
+            vercel pull --yes --environment=production --token=$VERCEL_TOKEN
             vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN --yes
           fi
